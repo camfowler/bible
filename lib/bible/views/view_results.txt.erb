@@ -1,0 +1,11 @@
+% if @search_results
+Viewing References [<% @search_results.count %>]:
+% @search_results.each do |scripture|
+
+<%= scripture.header %>
+
+  <%= scripture.verse %> <%= scripture.content %>
+% end
+% else
+No references.  Use '??word' first.
+% end

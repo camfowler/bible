@@ -1,0 +1,14 @@
+% @scriptures.each do |scripture|
+% unless scripture.class == Scripture
+Bad Reference: '<%= scripture %>'
+% else
+% if scripture.verse == "1"
+
+<%= scripture.header %>
+
+  <%= scripture.verse %> <%= scripture.content %>
+% else
+  <%= scripture.verse %> <%= scripture.content %>
+% end
+% end
+% end

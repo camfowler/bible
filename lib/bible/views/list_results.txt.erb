@@ -1,0 +1,5 @@
+% if @results
+References [<%= @results.count %>]:  <%= @results.collect(&:short_name).join ' ' %>
+% else
+No references.  Use '??word' first.
+% end
