@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Bible::VERSION
   spec.authors       = ["Cameron Fowler"]
   spec.email         = ["hiding.in.a.box@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{A ruby implementation of the bible-kjv package available on Ubuntu}
+  # spec.description   = %q{TODO: Write a longer description. Optional.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
