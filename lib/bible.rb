@@ -1,5 +1,7 @@
-require "bible/version"
-require "bible/cli"
+require 'bible/version'
+
+require 'bible/cli'
+require 'bible/importer'
 
 require 'bible/models/bible'
 require 'bible/models/abbreviation'
@@ -10,6 +12,3 @@ require 'bible/controllers/bible_controller'
 
 require 'pry'
 
-module Bible
-  # Your code goes here...
-end

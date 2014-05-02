@@ -7,6 +7,11 @@ module Bible
       self.bible = bible
     end
 
+    def read_current_scripture
+      @scripture = bible.current_scripture
+      render :reading_verse
+    end
+
     def goto_next_scripture
       bible.next_scripture!
       @scripture = bible.current_scripture

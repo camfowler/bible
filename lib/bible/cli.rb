@@ -2,14 +2,14 @@ require 'readline'
 require 'word_wrap'
 
 module Bible
-    class Cli
+  class Cli
     attr_accessor :bible, :bible_controller, :prompt
 
     def initialize version, db_file
       self.bible = Bible.new(version, db_file)
       self.bible_controller = BibleController.new bible
       puts "Hit '?' for help.\n"
-      puts bible.reading
+      puts bible_controller.read_current_scripture
       set_prompt
     end
 
