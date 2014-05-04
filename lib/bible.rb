@@ -10,5 +10,5 @@ require 'bible/models/scripture'
 require 'bible/controllers/base_controller'
 require 'bible/controllers/bible_controller'
 
-require 'pry'
+# require 'pry'
 

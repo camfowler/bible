@@ -29,7 +29,7 @@ module Bible
     end
 
     def render view
-      filename = "./lib/bible/views/#{view}.txt.erb"
+      filename = File.expand_path(File.join(File.dirname(__FILE__), "../views/", "#{view}.txt.erb"))
 
       erb = ERB.new(File.read(filename), nil, '%')
       erb.def_class(View, 'render()').new(variables).render
