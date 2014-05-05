@@ -18,8 +18,14 @@ module Bible
       it 'lengthens book, chapter and verse' do
         expect(Abbreviation.lengthen 'lu2:5').to eq({ book: "Luke", chapter: '2', verse: '5' })
       end
+      it 'lengthens book, chapter and verse range' do
+        expect(Abbreviation.lengthen 'lu2:5-15').to eq({ book: "Luke", chapter: '2', verse_range: ['5', '15'] })
+      end
       it 'lengthens verse' do
         expect(Abbreviation.lengthen '15').to eq({ book: nil, chapter: nil, verse: '15' })
+      end
+      it 'lengthens a range' do
+        expect(Abbreviation.lengthen '2-5').to eq({ book: nil, chapter: nil, verse_range: ['2', '5'] })
       end
     end
   end

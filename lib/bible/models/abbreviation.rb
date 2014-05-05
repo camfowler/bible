@@ -13,12 +13,16 @@ module Bible
       when /^(?<chapter>\d+):(?<verse>\d+)$/
         {book: nil, chapter: $~[:chapter], verse: $~[:verse]}
       when /^(?<verse_start>\d+)-(?<verse_end>\d+)$/
-        {book: nil, chapter: $~[:chapter], verse_range: [$~[:verse_start], $~[:verse_end]]}
-        "ranges not supported yet"
+        {book: nil, chapter: nil, verse_range: [$~[:verse_start], $~[:verse_end]]}
       when /^(?<book>\d?\D+)(?<chapter>\d+)?(:(?<verse>\d+)(-(?<range>\d+))?)?$/
-        {book: FuzzyMatch.new(ABBREVIATIONS.keys).find($~[:book]),
-         chapter: $~[:chapter]||'1',
-         verse: $~[:verse]||'1'}
+        match_results = {book: FuzzyMatch.new(ABBREVIATIONS.keys).find($~[:book]),
+                         chapter: $~[:chapter]||'1'}
+        if $~[:range]
+          match_results[:verse_range] = [$~[:verse], $~[:range]]
+        else
+          match_results[:verse] = ($~[:verse] || '1')
+        end
+        match_results
       else
         {book: nil, chapter: nil, verse: nil}
       end
