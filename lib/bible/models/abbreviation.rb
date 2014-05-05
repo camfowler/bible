@@ -1,4 +1,4 @@
-# require 'fuzzy_match'
+require 'fuzzy_match'
 
 module Bible
   class Abbreviation
