@@ -14,69 +14,85 @@ arg_name '[version]'
 command :read do |c|
   c.action do |global_options,options,args|
     version = args[0]
-    cli = Bible::Cli.new(version.upcase, "db/#{version.downcase}.db")
+    bible_db = File.expand_path(File.join(File.dirname(__FILE__), "../db/", "#{version.downcase}.db"))
+    cli = Bible::Cli.new(version.upcase, bible_db)
     cli.start
   end
 end
 
 
-desc 'Import a new version of the bible'
+desc 'Install a new version of the bible'
 arg_name '[bible_file.xml] [version_name(optional)]'
-command :import do |c|
+command :install do |c|
   c.action do |global_options,options,args|
     bible_file = args[0]
     version_name = args[1] || File.basename(bible_file, ".*")
-# importer = BibleImporter.new('../bible_sources/bibles/niv.xml')
     importer = Bible::Importer.new(bible_file, version_name)
     importer.start
   end
 end
 
 
-
-desc 'Describe some switch here'
-switch [:s,:switch]
-
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
-
-desc 'Describe new here'
-arg_name 'Describe arguments to new here'
-command :new do |c|
-  c.desc 'Describe a switch to new'
-  c.switch :s
-
-  c.desc 'Describe a flag to new'
-  c.default_value 'default'
-  c.flag :f
-  c.action do |global_options,options,args|
-
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
-
-    puts "new command ran"
-  end
-end
-
-desc 'Describe list here'
-arg_name 'Describe arguments to list here'
+desc 'List what versions of the bible are installed'
 command :list do |c|
   c.action do |global_options,options,args|
-    puts "list command ran"
+    bible_files = Dir.entries(File.expand_path(File.join(File.dirname(__FILE__), "../db/")))
+    versions_available = bible_files.collect do |bible_file|
+      next unless bible_file =~ /\.db$/
+      File.basename(bible_file, ".db").upcase
+    end
+
+    print "Bible versions available: "
+    puts versions_available.compact.join ", "
   end
 end
 
-desc 'Describe done here'
-arg_name 'Describe arguments to done here'
-command :done do |c|
-  c.action do |global_options,options,args|
-    puts "done command ran"
-  end
-end
+
+
+
+# desc 'Describe some switch here'
+# switch [:s,:switch]
+
+# desc 'Describe some flag here'
+# default_value 'the default'
+# arg_name 'The name of the argument'
+# flag [:f,:flagname]
+
+# desc 'Describe new here'
+# arg_name 'Describe arguments to new here'
+# command :new do |c|
+#   c.desc 'Describe a switch to new'
+#   c.switch :s
+
+#   c.desc 'Describe a flag to new'
+#   c.default_value 'default'
+#   c.flag :f
+#   c.action do |global_options,options,args|
+
+#     # Your command logic here
+     
+#     # If you have any errors, just raise them
+#     # raise "that command made no sense"
+
+#     puts "new command ran"
+#   end
+# end
+
+# desc 'Describe list here'
+# arg_name 'Describe arguments to list here'
+# command :list do |c|
+#   c.action do |global_options,options,args|
+#     puts "list command ran"
+#   end
+# end
+
+# desc 'Describe done here'
+# arg_name 'Describe arguments to done here'
+# command :done do |c|
+#   c.action do |global_options,options,args|
+#     puts "done command ran"
+#   end
+# end
 
 pre do |global,command,options,args|
   # Pre logic here
