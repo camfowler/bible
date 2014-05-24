@@ -38,7 +38,7 @@ module Bible
 
     def set_position_to reference
       #keep the current context
-      unless reference[:book].nil?
+      if reference[:book].nil?
         reference[:chapter] ||= current_scripture.chapter
       end
       reference[:book] ||= current_scripture.book

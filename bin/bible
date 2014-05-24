@@ -14,7 +14,8 @@ arg_name '[version]'
 command :read do |c|
   c.action do |global_options,options,args|
     version = args[0]
-    bible_db = File.expand_path(File.join(File.dirname(__FILE__), "../db/", "#{version.downcase}.db"))
+    # bible_db = File.expand_path(File.join(File.dirname(__FILE__), "../db/", "#{version.downcase}.db"))
+    bible_db = File.expand_path(File.join("~/.bibles", "#{version.downcase}.db"))
     cli = Bible::Cli.new(version.upcase, bible_db)
     cli.start
   end
@@ -36,7 +37,8 @@ end
 desc 'List what versions of the bible are installed'
 command :list do |c|
   c.action do |global_options,options,args|
-    bible_files = Dir.entries(File.expand_path(File.join(File.dirname(__FILE__), "../db/")))
+    # bible_files = Dir.entries(File.expand_path(File.join(File.dirname(__FILE__), "../db/")))
+    bible_files = Dir.entries(File.expand_path("~/.bibles"))
     versions_available = bible_files.collect do |bible_file|
       next unless bible_file =~ /\.db$/
       File.basename(bible_file, ".db").upcase
