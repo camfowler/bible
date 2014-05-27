@@ -2,6 +2,7 @@ require 'readline'
 require 'word_wrap'
 
 module Bible
+
   class Cli
     attr_accessor :bible, :bible_controller, :prompt
 
@@ -86,12 +87,16 @@ HELP
     end
 
     def display string
-      wrapped_string = WordWrap.ww(string)
-      if wrapped_string.lines.count > `tput lines`.to_i
+      screen_width = `tput cols`.to_i
+      screen_height = `tput lines`.to_i
+      wrapped_string = WordWrap.ww(string, [80, screen_width].min)
+      if wrapped_string.lines.count > screen_height
         IO.popen("less", "w") { |f| f.puts wrapped_string }
       else
         puts wrapped_string
       end
     end
+
   end
+
 end
