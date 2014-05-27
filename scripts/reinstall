@@ -1,0 +1,6 @@
+#!/bin/bash
+gem uninstall bible -x
+rm bible-0.0.1.gem
+gem build bible.gemspec
+gem install bible-0.0.1.gem
+
