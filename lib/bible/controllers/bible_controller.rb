@@ -44,7 +44,7 @@ module Bible
     end
 
     def goto fuzzy_references
-      fuzzy_references.gsub! /[\s,]+/, ','
+      fuzzy_references.gsub! /(\s*,+\s*)+/, ','
       split_references = fuzzy_references.split(',').compact
       @scriptures = split_references.collect do |reference|
         if bible.set_position_to(Abbreviation.lengthen reference)
