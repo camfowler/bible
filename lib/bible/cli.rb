@@ -86,7 +86,12 @@ HELP
     end
 
     def display string
-      puts WordWrap.ww(string)
+      wrapped_string = WordWrap.ww(string)
+      if wrapped_string.lines.count > `tput lines`.to_i
+        IO.popen("less", "w") { |f| f.puts wrapped_string }
+      else
+        puts wrapped_string
+      end
     end
   end
 end
