@@ -4,11 +4,15 @@ module Bible
   class Bible
     attr_accessor :version, :db, :current_scripture, :search_results, :direction
 
+    REFERENCE_FILE = File.join(File.expand_path('~/.bibles'), 'current_scripture_reference')
+
     def initialize version, db_file
       self.version = version
       self.db = SQLite3::Database.new db_file
-      db.execute("SELECT ROWID, * FROM verses LIMIT 1") do |row|
-        self.current_scripture = Scripture.new row
+      unless load_current_scripture_reference
+        db.execute("SELECT ROWID, * FROM verses LIMIT 1") do |row|
+          self.current_scripture = Scripture.new row
+        end
       end
       self.direction = '>'
     end
@@ -17,6 +21,7 @@ module Bible
       next_rowid = current_scripture.rowid + direction_increment
       db.execute("SELECT ROWID, * FROM verses WHERE ROWID=? LIMIT 1", next_rowid) do |row|
         self.current_scripture = Scripture.new row
+        save_current_scripture_reference
       end
     end
 
@@ -61,6 +66,7 @@ module Bible
 
       if row
         self.current_scripture = Scripture.new row
+        save_current_scripture_reference
         return self.current_scripture
       else
         return nil
@@ -83,6 +89,20 @@ module Bible
 
     def direction_increment
       direction == '>' ? 1 : -1
+    end
+
+    def save_current_scripture_reference
+      IO.write REFERENCE_FILE, current_scripture.rowid
+    end
+
+    def load_current_scripture_reference
+      if File.exists? REFERENCE_FILE
+        rowid = IO.read REFERENCE_FILE
+        rowid.to_i
+        db.execute("SELECT ROWID, * FROM verses WHERE ROWID = ? LIMIT 1", rowid) do |row|
+          self.current_scripture = Scripture.new row
+        end
+      end
     end
   end
 end
