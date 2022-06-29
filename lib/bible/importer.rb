@@ -62,7 +62,7 @@ module Bible
 
     def load_data_into_sqlite3_db
       # db_file = File.expand_path(File.join(File.dirname(__FILE__), "../../db/", "#{version_name}.db"))
-      Dir.mkdir '~/.bibles'
+      # Dir.mkdir '~/.bibles'
       db_file = File.expand_path(File.join("~/.bibles", "#{version_name}.db"))
       File.delete(db_file) if File.exists?(db_file)
       db = SQLite3::Database.new(db_file)

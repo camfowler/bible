@@ -31,7 +31,7 @@ module Bible
     def render view
       filename = File.expand_path(File.join(File.dirname(__FILE__), "../views/", "#{view}.txt.erb"))
 
-      erb = ERB.new(File.read(filename), nil, '%')
+      erb = ERB.new(File.read(filename), trim_mode: '%')
       erb.def_class(View, 'render()').new(variables).render
     end
   end
